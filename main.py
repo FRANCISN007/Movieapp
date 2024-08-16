@@ -310,12 +310,12 @@ def delete_reply(reply_id: int, db: Session = Depends(get_db), current_user: mod
     # Check if the reply_id exists
     if existing_reply is None:
         logger.warning(f"Reply_id {reply_id} not found")
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Reply_id {reply_id} does not exist, Please try another comment_id")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Reply_id {reply_id} does not exist, Please try another reply_id")
     
     # Check if the current user is the owner of the reply
     if existing_reply.user_id != current_user.id:
         logger.warning(f"User {current_user.username} is not authorized to delete reply_id: {reply_id}")
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You are not authorized to delete this comment")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You are not authorized to delete this reply")
     
     # Delete the reply
     crud.delete_reply(db=db, reply_id=reply_id)
